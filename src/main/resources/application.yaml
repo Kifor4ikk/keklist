@@ -1,0 +1,30 @@
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+spring:
+  port: 8080
+  profiles:
+    active: dev
+  application:
+    name: keklist
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: "1"
+    username: "postgres"
+    url: "jdbc:postgresql://localhost:5432/kekbase"
+
+  devtools:
+    restart:
+      enabled: 'true'
+      poll-interval: '2s'
+      quiet-period: '1s'
+      additional-paths:
+        - src/main/java/*
