@@ -20,24 +20,28 @@ public class Guild implements Serializable {
     private final LocalDate createDate;
     private final LocalDate updateDate;
     private final String name;
+    private final Long ownerId;
 
     public Guild(Guild value) {
         this.id = value.id;
         this.createDate = value.createDate;
         this.updateDate = value.updateDate;
         this.name = value.name;
+        this.ownerId = value.ownerId;
     }
 
     public Guild(
         Long id,
         LocalDate createDate,
         LocalDate updateDate,
-        String name
+        String name,
+        Long ownerId
     ) {
         this.id = id;
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.name = name;
+        this.ownerId = ownerId;
     }
 
     /**
@@ -66,6 +70,13 @@ public class Guild implements Serializable {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Getter for <code>public.guild.owner_id</code>.
+     */
+    public Long getOwnerId() {
+        return this.ownerId;
     }
 
     @Override
@@ -101,6 +112,12 @@ public class Guild implements Serializable {
         }
         else if (!this.name.equals(other.name))
             return false;
+        if (this.ownerId == null) {
+            if (other.ownerId != null)
+                return false;
+        }
+        else if (!this.ownerId.equals(other.ownerId))
+            return false;
         return true;
     }
 
@@ -112,6 +129,7 @@ public class Guild implements Serializable {
         result = prime * result + ((this.createDate == null) ? 0 : this.createDate.hashCode());
         result = prime * result + ((this.updateDate == null) ? 0 : this.updateDate.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.ownerId == null) ? 0 : this.ownerId.hashCode());
         return result;
     }
 
@@ -123,6 +141,7 @@ public class Guild implements Serializable {
         sb.append(", ").append(createDate);
         sb.append(", ").append(updateDate);
         sb.append(", ").append(name);
+        sb.append(", ").append(ownerId);
 
         sb.append(")");
         return sb.toString();

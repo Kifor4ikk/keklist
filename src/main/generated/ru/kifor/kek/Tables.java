@@ -4,9 +4,11 @@
 package ru.kifor.kek;
 
 
+import ru.kifor.kek.tables.Account;
 import ru.kifor.kek.tables.Event;
 import ru.kifor.kek.tables.Eventtoperson;
 import ru.kifor.kek.tables.Guild;
+import ru.kifor.kek.tables.Invites;
 import ru.kifor.kek.tables.Item;
 import ru.kifor.kek.tables.Itemtoperson;
 import ru.kifor.kek.tables.Person;
@@ -17,6 +19,11 @@ import ru.kifor.kek.tables.Person;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
+
+    /**
+     * The table <code>public.account</code>.
+     */
+    public static final Account ACCOUNT = Account.ACCOUNT;
 
     /**
      * The table <code>public.event</code>.
@@ -32,6 +39,11 @@ public class Tables {
      * The table <code>public.guild</code>.
      */
     public static final Guild GUILD = Guild.GUILD;
+
+    /**
+     * The table <code>public.invites</code>.
+     */
+    public static final Invites INVITES = Invites.INVITES;
 
     /**
      * The table <code>public.item</code>.

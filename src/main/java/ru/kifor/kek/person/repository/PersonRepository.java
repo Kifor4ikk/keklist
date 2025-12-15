@@ -33,20 +33,17 @@ public class PersonRepository
             PERSON,
             PERSON.NAME,
             PERSON.GEAR_SCORE,
-            PERSON.SPEC,
-            PERSON.GUILD_ID
+            PERSON.SPEC
         )
         .values(
             createModel.getName(),
             createModel.getGearScore(),
-            createModel.getSpec(),
-            createModel.getGuildId()
+            createModel.getSpec()
         ).returningResult(
             PERSON.ID,
             PERSON.NAME,
             PERSON.GEAR_SCORE,
             PERSON.SPEC,
-            PERSON.GUILD_ID,
             PERSON.CREATE_DATE
         ).fetch().map(
             record -> PersonModel.builder()
@@ -54,10 +51,9 @@ public class PersonRepository
                 .name(record.value2())
                 .gearScore(record.value3())
                 .spec(record.value4())
-                .guildId(record.value5())
-                .createdAt(record.value6().atTime(0,0))
+                .createdAt(record.value5().atTime(0,0))
                 .build()
-        );
+        ).getFirst();
   }
 
   @Override
@@ -67,7 +63,6 @@ public class PersonRepository
         PERSON.NAME,
         PERSON.GEAR_SCORE,
         PERSON.SPEC,
-        PERSON.GUILD_ID,
         PERSON.CREATE_DATE,
         GUILD.ID,
         GUILD.NAME,
@@ -78,16 +73,15 @@ public class PersonRepository
         .where(PERSON.ID.eq(id))
         .fetch().map(
             record -> PersonModel.builder()
-                .id(record.value1())
-                .name(record.value2())
-                .gearScore(record.value3())
-                .spec(record.value4())
-                .guildId(record.value5())
-                .createdAt(record.value6().atTime(0,0))
+                .id(record.get(PERSON.ID))
+                .name(record.get(PERSON.NAME))
+                .gearScore(record.get(PERSON.GEAR_SCORE))
+                .spec(record.get(PERSON.SPEC))
+                .createdAt(record.get(PERSON.CREATE_DATE).atTime(0,0))
                 .guild(GuildModel.builder()
-                    .id(record.value7())
-                    .name(record.value8())
-                    .createdAt(record.value9().atTime(0,0))
+                    .id(record.get(GUILD.ID))
+                    .name(record.get(GUILD.NAME))
+                    .createdAt(record.get(GUILD.CREATE_DATE).atTime(0,0))
                     .build()
                 )
         );
@@ -141,7 +135,6 @@ public class PersonRepository
             PERSON.NAME,
             PERSON.GEAR_SCORE,
             PERSON.SPEC,
-            PERSON.GUILD_ID,
             PERSON.CREATE_DATE,
             GUILD.ID,
             GUILD.NAME,
@@ -153,16 +146,15 @@ public class PersonRepository
         .limit(filterModel.getLimit())
         .fetch().map(
             record -> (PersonModel) PersonModel.builder()
-                .id(record.value1())
-                .name(record.value2())
-                .gearScore(record.value3())
-                .spec(record.value4())
-                .guildId(record.value5())
-                .createdAt(record.value6().atTime(0,0))
+                .id(record.get(PERSON.ID))
+                .name(record.get(PERSON.NAME))
+                .gearScore(record.get(PERSON.GEAR_SCORE))
+                .spec(record.get(PERSON.SPEC))
+                .createdAt(record.get(PERSON.CREATE_DATE).atTime(0,0))
                 .guild(GuildModel.builder()
-                    .id(record.value7())
-                    .name(record.value8())
-                    .createdAt(record.value9().atTime(0,0))
+                    .id(record.get(GUILD.ID))
+                    .name(record.get(GUILD.NAME))
+                    .createdAt(record.get(GUILD.CREATE_DATE).atTime(0,0))
                     .build()
                 )
                 .build()

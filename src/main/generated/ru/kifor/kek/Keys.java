@@ -12,9 +12,11 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 import org.jooq.impl.QOM.ForeignKeyRule;
 
+import ru.kifor.kek.tables.Account;
 import ru.kifor.kek.tables.Event;
 import ru.kifor.kek.tables.Eventtoperson;
 import ru.kifor.kek.tables.Guild;
+import ru.kifor.kek.tables.Invites;
 import ru.kifor.kek.tables.Item;
 import ru.kifor.kek.tables.Itemtoperson;
 import ru.kifor.kek.tables.Person;
@@ -31,6 +33,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<Record> ACCOUNT_PKEY = Internal.createUniqueKey(Account.ACCOUNT, DSL.name("account_pkey"), new TableField[] { Account.ACCOUNT.ID }, true);
     public static final UniqueKey<Record> EVENT_PKEY = Internal.createUniqueKey(Event.EVENT, DSL.name("event_pkey"), new TableField[] { Event.EVENT.ID }, true);
     public static final UniqueKey<Record> EVENTTOPERSON_PERSON_ID_EVENT_ID_KEY = Internal.createUniqueKey(Eventtoperson.EVENTTOPERSON, DSL.name("eventtoperson_person_id_event_id_key"), new TableField[] { Eventtoperson.EVENTTOPERSON.PERSON_ID, Eventtoperson.EVENTTOPERSON.EVENT_ID }, true);
     public static final UniqueKey<Record> GUILD_PKEY = Internal.createUniqueKey(Guild.GUILD, DSL.name("guild_pkey"), new TableField[] { Guild.GUILD.ID }, true);
@@ -42,8 +45,13 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<Record, Record> ACCOUNT__ACCOUNT_PERSONID_FKEY = Internal.createForeignKey(Account.ACCOUNT, DSL.name("account_personid_fkey"), new TableField[] { Account.ACCOUNT.PERSONID }, Keys.PERSON_PKEY, new TableField[] { Person.PERSON.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<Record, Record> EVENT__EVENT_GUILD_ID_FKEY = Internal.createForeignKey(Event.EVENT, DSL.name("event_guild_id_fkey"), new TableField[] { Event.EVENT.GUILD_ID }, Keys.GUILD_PKEY, new TableField[] { Guild.GUILD.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<Record, Record> EVENTTOPERSON__EVENTTOPERSON_EVENT_ID_FKEY = Internal.createForeignKey(Eventtoperson.EVENTTOPERSON, DSL.name("eventtoperson_event_id_fkey"), new TableField[] { Eventtoperson.EVENTTOPERSON.EVENT_ID }, Keys.EVENT_PKEY, new TableField[] { Event.EVENT.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<Record, Record> EVENTTOPERSON__EVENTTOPERSON_PERSON_ID_FKEY = Internal.createForeignKey(Eventtoperson.EVENTTOPERSON, DSL.name("eventtoperson_person_id_fkey"), new TableField[] { Eventtoperson.EVENTTOPERSON.PERSON_ID }, Keys.PERSON_PKEY, new TableField[] { Person.PERSON.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<Record, Record> GUILD__GUILD_OWNER_ID_FKEY = Internal.createForeignKey(Guild.GUILD, DSL.name("guild_owner_id_fkey"), new TableField[] { Guild.GUILD.OWNER_ID }, Keys.PERSON_PKEY, new TableField[] { Person.PERSON.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<Record, Record> INVITES__INVITES_GUILD_ID_FKEY = Internal.createForeignKey(Invites.INVITES, DSL.name("invites_guild_id_fkey"), new TableField[] { Invites.INVITES.GUILD_ID }, Keys.GUILD_PKEY, new TableField[] { Guild.GUILD.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<Record, Record> INVITES__INVITES_PERSON_ID_FKEY = Internal.createForeignKey(Invites.INVITES, DSL.name("invites_person_id_fkey"), new TableField[] { Invites.INVITES.PERSON_ID }, Keys.PERSON_PKEY, new TableField[] { Person.PERSON.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<Record, Record> ITEMTOPERSON__ITEMTOPERSON_ITEM_ID_FKEY = Internal.createForeignKey(Itemtoperson.ITEMTOPERSON, DSL.name("itemtoperson_item_id_fkey"), new TableField[] { Itemtoperson.ITEMTOPERSON.ITEM_ID }, Keys.ITEM_PKEY, new TableField[] { Item.ITEM.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<Record, Record> ITEMTOPERSON__ITEMTOPERSON_PERSON_ID_FKEY = Internal.createForeignKey(Itemtoperson.ITEMTOPERSON, DSL.name("itemtoperson_person_id_fkey"), new TableField[] { Itemtoperson.ITEMTOPERSON.PERSON_ID }, Keys.PERSON_PKEY, new TableField[] { Person.PERSON.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<Record, Record> PERSON__PERSON_GUILD_ID_FKEY = Internal.createForeignKey(Person.PERSON, DSL.name("person_guild_id_fkey"), new TableField[] { Person.PERSON.GUILD_ID }, Keys.GUILD_PKEY, new TableField[] { Guild.GUILD.ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);

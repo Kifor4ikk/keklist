@@ -69,27 +69,52 @@ public class GuildRepository
                     )
                     .from(PERSON)
                     .where(PERSON.GUILD_ID.eq(GUILD.ID))
-            ).as("members")
+            ).as("members"),
+            multiset(
+                select
+                    (
+                        PERSON.ID,
+                        PERSON.GUILD_ID,
+                        PERSON.NAME,
+                        PERSON.GEAR_SCORE,
+                        PERSON.SPEC,
+                        PERSON.CREATE_DATE,
+                        PERSON.UPDATE_DATE
+                    )
+                    .from(PERSON)
+                    .where(PERSON.GUILD_ID.eq(GUILD.ID), GUILD.OWNER_ID.eq(PERSON.ID))
+            ).as("owner")
         ).from(GUILD)
         .where(GUILD.ID.eq(id))
         .fetch().map(
             record ->
               GuildModel.builder()
-                  .id(record.value1())
-                  .name(record.value2())
-                  .createdAt(record.value3().atTime(0, 0))
+                  .id(record.get(GUILD.ID))
+                  .name(record.get(GUILD.NAME))
+                  .createdAt(record.get(GUILD.CREATE_DATE).atTime(0, 0))
                   .members(
                       record.value4().stream()
                           .map(pers -> PersonModel
                               .builder()
-                              .id(pers.value1())
-                              .guildId(pers.value2())
-                              .name(pers.value3())
-                              .gearScore(pers.value4())
-                              .spec(pers.value5())
-                              .createdAt(pers.value6().atTime(0, 0))
+                              .id(pers.get(PERSON.ID))
+                              .name(pers.get(PERSON.NAME))
+                              .gearScore(pers.get(PERSON.GEAR_SCORE))
+                              .spec(pers.get(PERSON.SPEC))
+                              .createdAt(pers.get(PERSON.CREATE_DATE).atTime(0, 0))
                               .build()
                           ).collect(toList())
+                  )
+                  .owner(
+                      record.value5() == null ? null :
+                          record.value5().stream().map(
+                              owner -> PersonModel.builder()
+                                  .id(owner.get(PERSON.ID))
+                                  .name(owner.get(PERSON.NAME))
+                                  .gearScore(owner.get(PERSON.GEAR_SCORE))
+                                  .spec(owner.get(PERSON.SPEC))
+                                  .createdAt(owner.get(PERSON.CREATE_DATE).atTime(0, 0))
+                                  .build()
+                          ).findAny().orElse(null)
                   )
                   .build()
         );
@@ -119,7 +144,7 @@ public class GuildRepository
   public BasePageble<GuildModel> getAll(GuildFilterModel filterModel) {
     List<Condition> conditions = new ArrayList<>();
     if (filterModel.getName() != null)
-      conditions.add(GUILD.NAME.like(filterModel.getName()));
+      conditions.add(GUILD.NAME.likeIgnoreCase("%" + filterModel.getName() + "%"));
 
     var resultList = dslContext.select(
         GUILD.ID,
@@ -138,7 +163,7 @@ public class GuildRepository
             .createdAt(record.value3().atTime(0, 0))
             .build()
         );
-    var total = dslContext.select(count(GUILD.ID)).from(GUILD).fetchOne(0, int.class);
+    var total = dslContext.select(count(GUILD.ID)).from(GUILD).where(conditions).fetchOne(0, int.class);
     return new BasePageble<GuildModel>(filterModel.getPage(), filterModel.getLimit(), total, resultList);
   }
 

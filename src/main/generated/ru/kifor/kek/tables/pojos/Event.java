@@ -21,6 +21,7 @@ public class Event implements Serializable {
     private final LocalDate updateDate;
     private final String name;
     private final Integer gold;
+    private final Long guildId;
 
     public Event(Event value) {
         this.id = value.id;
@@ -28,6 +29,7 @@ public class Event implements Serializable {
         this.updateDate = value.updateDate;
         this.name = value.name;
         this.gold = value.gold;
+        this.guildId = value.guildId;
     }
 
     public Event(
@@ -35,13 +37,15 @@ public class Event implements Serializable {
         LocalDate createDate,
         LocalDate updateDate,
         String name,
-        Integer gold
+        Integer gold,
+        Long guildId
     ) {
         this.id = id;
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.name = name;
         this.gold = gold;
+        this.guildId = guildId;
     }
 
     /**
@@ -77,6 +81,13 @@ public class Event implements Serializable {
      */
     public Integer getGold() {
         return this.gold;
+    }
+
+    /**
+     * Getter for <code>public.event.guild_id</code>.
+     */
+    public Long getGuildId() {
+        return this.guildId;
     }
 
     @Override
@@ -118,6 +129,12 @@ public class Event implements Serializable {
         }
         else if (!this.gold.equals(other.gold))
             return false;
+        if (this.guildId == null) {
+            if (other.guildId != null)
+                return false;
+        }
+        else if (!this.guildId.equals(other.guildId))
+            return false;
         return true;
     }
 
@@ -130,6 +147,7 @@ public class Event implements Serializable {
         result = prime * result + ((this.updateDate == null) ? 0 : this.updateDate.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.gold == null) ? 0 : this.gold.hashCode());
+        result = prime * result + ((this.guildId == null) ? 0 : this.guildId.hashCode());
         return result;
     }
 
@@ -142,6 +160,7 @@ public class Event implements Serializable {
         sb.append(", ").append(updateDate);
         sb.append(", ").append(name);
         sb.append(", ").append(gold);
+        sb.append(", ").append(guildId);
 
         sb.append(")");
         return sb.toString();

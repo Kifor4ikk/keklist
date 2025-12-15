@@ -16,5 +16,4 @@ public class PersonCreateModel extends BaseCreateModel {
   private String name;
   private int gearScore;
   private Spec spec;
-  private Long guildId;
 }

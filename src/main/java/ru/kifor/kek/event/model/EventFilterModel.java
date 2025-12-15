@@ -17,4 +17,6 @@ public class EventFilterModel extends BaseFilterModel {
 
   private int minGold;
   private int maxGold;
+
+  private Long guildId;
 }

@@ -12,9 +12,11 @@ import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SchemaImpl;
 
+import ru.kifor.kek.tables.Account;
 import ru.kifor.kek.tables.Event;
 import ru.kifor.kek.tables.Eventtoperson;
 import ru.kifor.kek.tables.Guild;
+import ru.kifor.kek.tables.Invites;
 import ru.kifor.kek.tables.Item;
 import ru.kifor.kek.tables.Itemtoperson;
 import ru.kifor.kek.tables.Person;
@@ -34,6 +36,11 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.account</code>.
+     */
+    public final Account ACCOUNT = Account.ACCOUNT;
+
+    /**
      * The table <code>public.event</code>.
      */
     public final Event EVENT = Event.EVENT;
@@ -47,6 +54,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.guild</code>.
      */
     public final Guild GUILD = Guild.GUILD;
+
+    /**
+     * The table <code>public.invites</code>.
+     */
+    public final Invites INVITES = Invites.INVITES;
 
     /**
      * The table <code>public.item</code>.
@@ -79,9 +91,11 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Account.ACCOUNT,
             Event.EVENT,
             Eventtoperson.EVENTTOPERSON,
             Guild.GUILD,
+            Invites.INVITES,
             Item.ITEM,
             Itemtoperson.ITEMTOPERSON,
             Person.PERSON

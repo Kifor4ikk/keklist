@@ -53,9 +53,9 @@ public class PersonController {
   @GetMapping("/all")
   public BasePageble<PersonModel> getAll(
       @RequestParam(required = false, name = "name") String name,
-      @RequestParam(required = false, name = "gearMin") int gearMin,
-      @RequestParam(required = false, name = "gearMax") int gearMax,
-      @RequestParam(required = false, name = "guildId") long guildId,
+      @RequestParam(required = false, name = "gearMin") Integer gearMin,
+      @RequestParam(required = false, name = "gearMax") Integer gearMax,
+      @RequestParam(required = false, name = "guildId") Long guildId,
       @RequestParam(required = false, name = "specs") List<Spec> specs,
 
       @RequestParam(required = false, name = "page", defaultValue = "0") int page,
@@ -65,10 +65,10 @@ public class PersonController {
     return service.getAll(
         PersonFilterModel.builder()
             .name(Optional.ofNullable(name))
-            .gearMin(Optional.of(gearMin))
-            .gearMax(Optional.of(gearMax))
-            .guildId(Optional.of(guildId))
-            .spec(specs)
+            .gearMin(Optional.ofNullable(gearMin))
+            .gearMax(Optional.ofNullable(gearMax))
+            .guildId(Optional.ofNullable(guildId))
+            .spec(specs != null ? specs : new ArrayList<>())
             .page(page)
             .limit(limit)
             .build()

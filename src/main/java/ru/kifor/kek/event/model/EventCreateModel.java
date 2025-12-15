@@ -15,5 +15,6 @@ public class EventCreateModel extends BaseCreateModel {
 
   private String name;
   private int gold;
+  private Long guildId;
 
 }

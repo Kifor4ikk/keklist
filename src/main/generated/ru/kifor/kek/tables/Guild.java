@@ -5,7 +5,9 @@ package ru.kifor.kek.tables;
 
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -31,6 +33,8 @@ import org.jooq.impl.TableImpl;
 
 import ru.kifor.kek.Keys;
 import ru.kifor.kek.Public;
+import ru.kifor.kek.tables.Event.EventPath;
+import ru.kifor.kek.tables.Invites.InvitesPath;
 import ru.kifor.kek.tables.Person.PersonPath;
 
 
@@ -74,6 +78,11 @@ public class Guild extends TableImpl<Record> {
      * The column <code>public.guild.name</code>.
      */
     public final TableField<Record, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "");
+
+    /**
+     * The column <code>public.guild.owner_id</code>.
+     */
+    public final TableField<Record, Long> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.BIGINT, this, "");
 
     private Guild(Name alias, Table<Record> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -152,17 +161,46 @@ public class Guild extends TableImpl<Record> {
         return Keys.GUILD_PKEY;
     }
 
+    @Override
+    public List<ForeignKey<Record, ?>> getReferences() {
+        return Arrays.asList(Keys.GUILD__GUILD_OWNER_ID_FKEY);
+    }
+
     private transient PersonPath _person;
 
     /**
-     * Get the implicit to-many join path to the <code>public.person</code>
-     * table
+     * Get the implicit join path to the <code>public.person</code> table.
      */
     public PersonPath person() {
         if (_person == null)
-            _person = new PersonPath(this, null, Keys.PERSON__PERSON_GUILD_ID_FKEY.getInverseKey());
+            _person = new PersonPath(this, Keys.GUILD__GUILD_OWNER_ID_FKEY, null);
 
         return _person;
+    }
+
+    private transient EventPath _event;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.event</code> table
+     */
+    public EventPath event() {
+        if (_event == null)
+            _event = new EventPath(this, null, Keys.EVENT__EVENT_GUILD_ID_FKEY.getInverseKey());
+
+        return _event;
+    }
+
+    private transient InvitesPath _invites;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.invites</code>
+     * table
+     */
+    public InvitesPath invites() {
+        if (_invites == null)
+            _invites = new InvitesPath(this, null, Keys.INVITES__INVITES_GUILD_ID_FKEY.getInverseKey());
+
+        return _invites;
     }
 
     @Override

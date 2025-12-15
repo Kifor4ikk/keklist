@@ -34,9 +34,11 @@ import org.jooq.impl.TableImpl;
 import ru.kifor.kek.Keys;
 import ru.kifor.kek.Public;
 import ru.kifor.kek.enums.Spec;
+import ru.kifor.kek.tables.Account.AccountPath;
 import ru.kifor.kek.tables.Event.EventPath;
 import ru.kifor.kek.tables.Eventtoperson.EventtopersonPath;
 import ru.kifor.kek.tables.Guild.GuildPath;
+import ru.kifor.kek.tables.Invites.InvitesPath;
 import ru.kifor.kek.tables.Item.ItemPath;
 import ru.kifor.kek.tables.Itemtoperson.ItemtopersonPath;
 
@@ -196,6 +198,19 @@ public class Person extends TableImpl<Record> {
         return _guild;
     }
 
+    private transient AccountPath _account;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.account</code>
+     * table
+     */
+    public AccountPath account() {
+        if (_account == null)
+            _account = new AccountPath(this, null, Keys.ACCOUNT__ACCOUNT_PERSONID_FKEY.getInverseKey());
+
+        return _account;
+    }
+
     private transient EventtopersonPath _eventtoperson;
 
     /**
@@ -207,6 +222,19 @@ public class Person extends TableImpl<Record> {
             _eventtoperson = new EventtopersonPath(this, null, Keys.EVENTTOPERSON__EVENTTOPERSON_PERSON_ID_FKEY.getInverseKey());
 
         return _eventtoperson;
+    }
+
+    private transient InvitesPath _invites;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.invites</code>
+     * table
+     */
+    public InvitesPath invites() {
+        if (_invites == null)
+            _invites = new InvitesPath(this, null, Keys.INVITES__INVITES_PERSON_ID_FKEY.getInverseKey());
+
+        return _invites;
     }
 
     private transient ItemtopersonPath _itemtoperson;
