@@ -3,10 +3,7 @@ package ru.kifor.kek.base.service;
 import org.jooq.Record;
 import org.jooq.impl.TableImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.kifor.kek.base.model.BaseCreateModel;
-import ru.kifor.kek.base.model.BaseFilterModel;
-import ru.kifor.kek.base.model.BaseModel;
-import ru.kifor.kek.base.model.BaseUpdateModel;
+import ru.kifor.kek.base.model.*;
 import ru.kifor.kek.base.repository.BaseRepository;
 import ru.kifor.kek.base.repository.BaseRepositoryImpl;
 import ru.kifor.kek.utils.NotImplementedException;
@@ -46,7 +43,7 @@ public abstract class BaseServiceImpl<
     }
 
     @Override
-    public List<G> getAll(F filterModel) {
+    public BasePageble<G> getAll(F filterModel) {
       return repos.getAll(filterModel);
     }
   }

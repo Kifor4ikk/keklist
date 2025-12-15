@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @SuperBuilder
@@ -15,5 +16,5 @@ import java.time.LocalDateTime;
 public class BaseCreateModel {
 
   @Builder.Default
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private Optional<LocalDateTime> createdAt = Optional.ofNullable(LocalDateTime.now());
 }

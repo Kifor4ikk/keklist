@@ -2,10 +2,7 @@ package ru.kifor.kek.base.service;
 
 import org.jooq.Record;
 import org.jooq.impl.TableImpl;
-import ru.kifor.kek.base.model.BaseCreateModel;
-import ru.kifor.kek.base.model.BaseFilterModel;
-import ru.kifor.kek.base.model.BaseModel;
-import ru.kifor.kek.base.model.BaseUpdateModel;
+import ru.kifor.kek.base.model.*;
 
 import java.util.List;
 
@@ -21,5 +18,5 @@ public interface BaseService<
   public G update(Long id, U updateModel);
 
   public void delete(Long id);
-  public List<G> getAll(F filterModel);
+  public BasePageble<G> getAll(F filterModel);
 }

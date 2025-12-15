@@ -1,7 +1,10 @@
 package ru.kifor.kek.guild.repository;
 
 import lombok.AllArgsConstructor;
+import org.jooq.Condition;
+import org.jooq.LikeEscapeStep;
 import org.springframework.stereotype.Repository;
+import ru.kifor.kek.base.model.BasePageble;
 import ru.kifor.kek.base.repository.BaseRepositoryImpl;
 import ru.kifor.kek.guild.model.GuildCreateModel;
 import ru.kifor.kek.guild.model.GuildFilterModel;
@@ -11,15 +14,13 @@ import ru.kifor.kek.person.model.PersonModel;
 import ru.kifor.kek.tables.Guild;
 import ru.kifor.kek.utils.NotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 import static org.jooq.impl.DSL.*;
 import static ru.kifor.kek.tables.Guild.GUILD;
 import static ru.kifor.kek.tables.Person.PERSON;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
@@ -115,21 +116,30 @@ public class GuildRepository
   }
 
   @Override
-  public List<GuildModel> getAll(GuildFilterModel filterModel) {
-    return dslContext
-        .select(
-            GUILD.ID,
-            GUILD.NAME,
-            GUILD.CREATE_DATE
-        ).from(GUILD)
-        .offset(filterModel.getPage())
+  public BasePageble<GuildModel> getAll(GuildFilterModel filterModel) {
+    List<Condition> conditions = new ArrayList<>();
+    if (filterModel.getName() != null)
+      conditions.add(GUILD.NAME.like(filterModel.getName()));
+
+    var resultList = dslContext.select(
+        GUILD.ID,
+        GUILD.NAME,
+        GUILD.CREATE_DATE
+    )
+        .from(GUILD)
+        .where(conditions)
         .limit(filterModel.getLimit())
-        .fetch().map(
-            record -> GuildModel.builder()
-                .id(record.value1())
-                .name(record.value2())
-                .createdAt(record.value3().atTime(0, 0))
-                .build()
+        .offset(filterModel.getPage() * filterModel.getLimit())
+        .fetch()
+        .map(
+            record -> (GuildModel) GuildModel.builder()
+            .id(record.value1())
+            .name(record.value2())
+            .createdAt(record.value3().atTime(0, 0))
+            .build()
         );
+    var total = dslContext.select(count(GUILD.ID)).from(GUILD).fetchOne(0, int.class);
+    return new BasePageble<GuildModel>(filterModel.getPage(), filterModel.getLimit(), total, resultList);
   }
+
 }

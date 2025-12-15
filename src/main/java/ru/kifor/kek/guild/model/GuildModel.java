@@ -16,5 +16,6 @@ import java.util.List;
 public class GuildModel extends BaseModel {
 
   private String name;
+  private PersonModel owner;
   private List<PersonModel> members;
 }

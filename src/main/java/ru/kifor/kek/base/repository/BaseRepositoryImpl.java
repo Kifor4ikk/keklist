@@ -7,10 +7,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.TableImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.kifor.kek.base.model.BaseCreateModel;
-import ru.kifor.kek.base.model.BaseFilterModel;
-import ru.kifor.kek.base.model.BaseModel;
-import ru.kifor.kek.base.model.BaseUpdateModel;
+import ru.kifor.kek.base.model.*;
 import ru.kifor.kek.utils.NotImplementedException;
 
 import java.util.List;
@@ -49,7 +46,7 @@ public abstract class BaseRepositoryImpl <
   }
 
   @Override
-  public List<G> getAll(F filterModel) {
+  public BasePageble<G> getAll(F filterModel) {
     throw new NotImplementedException("Method not implemented");
   }
 }

@@ -12,4 +12,5 @@ import ru.kifor.kek.base.model.BaseCreateModel;
 public class GuildCreateModel extends BaseCreateModel {
 
   private String name;
+  private Long ownerId;
 }
