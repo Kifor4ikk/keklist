@@ -1,46 +1,43 @@
-package ru.kifor.kek.person.controller;
+package ru.kifor.kek.event.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.kifor.kek.base.model.BasePageble;
-import ru.kifor.kek.enums.Spec;
-import ru.kifor.kek.person.model.PersonCreateModel;
-import ru.kifor.kek.person.model.PersonFilterModel;
-import ru.kifor.kek.person.model.PersonModel;
-import ru.kifor.kek.person.model.PersonUpdateModel;
-import ru.kifor.kek.person.service.PersonService;
+import ru.kifor.kek.event.model.EventCreateModel;
+import ru.kifor.kek.event.model.EventFilterModel;
+import ru.kifor.kek.event.model.EventModel;
+import ru.kifor.kek.event.model.EventUpdateModel;
+import ru.kifor.kek.event.service.EventService;
 
-import java.sql.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/person")
-public class PersonController {
+@RequestMapping("/event")
+public class EventController {
+
   @Autowired
-  private PersonService service;
+  private EventService service;
 
   @PostMapping("/")
-  public PersonModel create(
-      @RequestBody PersonCreateModel createModel
+  public EventModel create(
+      @RequestBody EventCreateModel createModel
   ){
     return service.create(createModel);
   }
 
   @GetMapping("/{id}")
-  public PersonModel getById(
+  public EventModel getById(
       @PathVariable(name="id") Long id
   ){
     return service.getById(id);
   }
 
   @PutMapping("/{id}")
-  public PersonModel update(
+  public EventModel update(
       @PathVariable(name="id") Long id,
-      @RequestBody PersonUpdateModel schemaUpdate
+      @RequestBody EventUpdateModel schemaUpdate
   ){
     return service.update(id, schemaUpdate);
   }
@@ -52,12 +49,13 @@ public class PersonController {
   }
 
   @GetMapping("/all")
-  public BasePageble<PersonModel> getAll(
+  public BasePageble<EventModel> getAll(
       @RequestParam(required = false, name = "name") String name,
-      @RequestParam(required = false, name = "gearMin") Integer gearMin,
-      @RequestParam(required = false, name = "gearMax") Integer gearMax,
+
+      @RequestParam(required = false, name = "minGold") Integer minGold,
+      @RequestParam(required = false, name = "maxGold") Integer maxGold,
+
       @RequestParam(required = false, name = "guildId") Long guildId,
-      @RequestParam(required = false, name = "specs") List<Spec> specs,
 
       @RequestParam(required = false, name = "minDate") LocalDate minDate,
       @RequestParam(required = false, name = "maxDate") LocalDate maxDate,
@@ -65,25 +63,18 @@ public class PersonController {
       @RequestParam(required = false, name = "page", defaultValue = "0") int page,
       @RequestParam(required = false, name = "limit", defaultValue = "10") int limit
   ){
-
     return service.getAll(
-        PersonFilterModel.builder()
+        EventFilterModel.builder()
             .name(Optional.ofNullable(name))
-            .gearMin(Optional.ofNullable(gearMin))
-            .gearMax(Optional.ofNullable(gearMax))
+            .minGold(Optional.ofNullable(minGold))
+            .maxGold(Optional.ofNullable(maxGold))
             .guildId(Optional.ofNullable(guildId))
-            .spec(specs != null ? specs : new ArrayList<>())
             .dateMin(Optional.ofNullable(minDate))
             .dateMax(Optional.ofNullable(maxDate))
             .page(page)
             .limit(limit)
             .build()
     );
-  }
-
-  @PostMapping("/{id}/guild/leave")
-  public void leaveGuild(@RequestParam(required = false, name = "id") Long personId){
-    service.leaveGuild(personId);
   }
 
 }

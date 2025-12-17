@@ -14,6 +14,7 @@ import ru.kifor.kek.person.model.PersonModel;
 import ru.kifor.kek.person.model.PersonUpdateModel;
 import ru.kifor.kek.tables.Guild;
 import ru.kifor.kek.tables.Person;
+import ru.kifor.kek.utils.NotFoundException;
 
 import static org.jooq.impl.DSL.*;
 import static ru.kifor.kek.tables.Person.PERSON;
@@ -58,7 +59,7 @@ public class PersonRepository
 
   @Override
   public PersonModel getById(Long id) {
-    return (PersonModel) dslContext.select(
+    var result = dslContext.select(
         PERSON.ID,
         PERSON.NAME,
         PERSON.GEAR_SCORE,
@@ -84,7 +85,12 @@ public class PersonRepository
                     .createdAt(record.get(GUILD.CREATE_DATE).atTime(0,0))
                     .build()
                 )
+                .build()
         );
+
+    if(!result.isEmpty())
+      return result.getFirst();
+    throw new NotFoundException("Invite with id " + id + " not found");
   }
 
   @Override
@@ -130,6 +136,11 @@ public class PersonRepository
     if (filterModel.getGearMax().isPresent())
       conditions.add(PERSON.GEAR_SCORE.le(filterModel.getGearMax().get()));
 
+    if(filterModel.getDateMin().isPresent())
+      conditions.add(PERSON.CREATE_DATE.greaterOrEqual(filterModel.getDateMin().get()));
+    if(filterModel.getDateMax().isPresent())
+      conditions.add(PERSON.CREATE_DATE.lessOrEqual(filterModel.getDateMax().get()));
+
     var result = dslContext.select(
             PERSON.ID,
             PERSON.NAME,
@@ -168,5 +179,14 @@ public class PersonRepository
             count,
             result
     );
+
   }
+
+  public boolean leaveGuild(Long personId) {
+    dslContext.update(PERSON)
+        .setNull(PERSON.GUILD_ID)
+        .where(PERSON.ID.eq(personId));
+    return true;
+  }
+
 }

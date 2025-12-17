@@ -4,6 +4,7 @@
 package ru.kifor.kek.tables;
 
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.InverseForeignKey;
 import org.jooq.Name;
 import org.jooq.Path;
@@ -24,6 +26,7 @@ import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -69,6 +72,26 @@ public class Invites extends TableImpl<Record> {
      * The column <code>public.invites.result</code>.
      */
     public final TableField<Record, Boolean> RESULT = createField(DSL.name("result"), SQLDataType.BOOLEAN, this, "");
+
+    /**
+     * The column <code>public.invites.isprocessed</code>.
+     */
+    public final TableField<Record, Boolean> ISPROCESSED = createField(DSL.name("isprocessed"), SQLDataType.BOOLEAN.defaultValue(DSL.field(DSL.raw("false"), SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.invites.id</code>.
+     */
+    public final TableField<Record, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>public.invites.create_date</code>.
+     */
+    public final TableField<Record, LocalDate> CREATE_DATE = createField(DSL.name("create_date"), SQLDataType.LOCALDATE.defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.LOCALDATE)), this, "");
+
+    /**
+     * The column <code>public.invites.update_date</code>.
+     */
+    public final TableField<Record, LocalDate> UPDATE_DATE = createField(DSL.name("update_date"), SQLDataType.LOCALDATE.defaultValue(DSL.field(DSL.raw("now()"), SQLDataType.LOCALDATE)), this, "");
 
     private Invites(Name alias, Table<Record> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -135,6 +158,16 @@ public class Invites extends TableImpl<Record> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
+    }
+
+    @Override
+    public Identity<Record, Long> getIdentity() {
+        return (Identity<Record, Long>) super.getIdentity();
+    }
+
+    @Override
+    public UniqueKey<Record> getPrimaryKey() {
+        return Keys.INVITES_PKEY;
     }
 
     @Override

@@ -7,16 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ru.kifor.kek.base.model.BaseFilterModel;
 
+import java.util.Optional;
+
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class EventFilterModel extends BaseFilterModel {
 
-  private String name;
+  private Optional<String> name;
 
-  private int minGold;
-  private int maxGold;
+  private Optional<Integer> minGold;
+  private Optional<Integer> maxGold;
 
-  private Long guildId;
+  private Optional<Long> guildId;
 }

@@ -19,6 +19,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 import static org.jooq.impl.DSL.*;
+import static ru.kifor.kek.tables.Event.EVENT;
 import static ru.kifor.kek.tables.Guild.GUILD;
 import static ru.kifor.kek.tables.Person.PERSON;
 
@@ -143,8 +144,12 @@ public class GuildRepository
   @Override
   public BasePageble<GuildModel> getAll(GuildFilterModel filterModel) {
     List<Condition> conditions = new ArrayList<>();
-    if (filterModel.getName() != null)
+    if (filterModel.getName().isPresent())
       conditions.add(GUILD.NAME.likeIgnoreCase("%" + filterModel.getName() + "%"));
+    if(filterModel.getDateMin().isPresent())
+      conditions.add(GUILD.CREATE_DATE.greaterOrEqual(filterModel.getDateMin().get()));
+    if(filterModel.getDateMax().isPresent())
+      conditions.add(GUILD.CREATE_DATE.lessOrEqual(filterModel.getDateMax().get()));
 
     var resultList = dslContext.select(
         GUILD.ID,
@@ -166,5 +171,6 @@ public class GuildRepository
     var total = dslContext.select(count(GUILD.ID)).from(GUILD).where(conditions).fetchOne(0, int.class);
     return new BasePageble<GuildModel>(filterModel.getPage(), filterModel.getLimit(), total, resultList);
   }
+
 
 }

@@ -11,12 +11,9 @@ import ru.kifor.kek.person.repository.PersonRepository;
 import ru.kifor.kek.tables.Person;
 
 @Service
-public class PersonService extends BaseServiceImpl<
-    Person,
-    PersonCreateModel,
-    PersonModel,
-    PersonUpdateModel,
-    PersonFilterModel,
-    PersonRepository
-    > {
+public class PersonService extends BaseServiceImpl<Person, PersonCreateModel, PersonModel, PersonUpdateModel, PersonFilterModel, PersonRepository> {
+
+  public boolean leaveGuild(Long userId) {
+    return repos.leaveGuild(userId);
+  }
 }

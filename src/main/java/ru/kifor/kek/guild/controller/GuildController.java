@@ -9,6 +9,9 @@ import ru.kifor.kek.guild.model.GuildModel;
 import ru.kifor.kek.guild.model.GuildUpdateModel;
 import ru.kifor.kek.guild.service.GuildService;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/guild")
 public class GuildController {
@@ -47,12 +50,18 @@ public class GuildController {
   @GetMapping("/all")
   public BasePageble<GuildModel> getAll(
       @RequestParam(required = false, name = "name") String name,
+
+      @RequestParam(required = false, name = "minDate") LocalDate minDate,
+      @RequestParam(required = false, name = "maxDate") LocalDate maxDate,
+
       @RequestParam(required = false, name = "page", defaultValue = "0") int page,
       @RequestParam(required = false, name = "limit", defaultValue = "10") int limit
   ){
     return service.getAll(
         GuildFilterModel.builder()
-            .name(name)
+            .name(Optional.ofNullable(name))
+            .dateMin(Optional.ofNullable(minDate))
+            .dateMax(Optional.ofNullable(maxDate))
             .page(page)
             .limit(limit)
             .build()

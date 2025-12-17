@@ -37,6 +37,7 @@ public class Keys {
     public static final UniqueKey<Record> EVENT_PKEY = Internal.createUniqueKey(Event.EVENT, DSL.name("event_pkey"), new TableField[] { Event.EVENT.ID }, true);
     public static final UniqueKey<Record> EVENTTOPERSON_PERSON_ID_EVENT_ID_KEY = Internal.createUniqueKey(Eventtoperson.EVENTTOPERSON, DSL.name("eventtoperson_person_id_event_id_key"), new TableField[] { Eventtoperson.EVENTTOPERSON.PERSON_ID, Eventtoperson.EVENTTOPERSON.EVENT_ID }, true);
     public static final UniqueKey<Record> GUILD_PKEY = Internal.createUniqueKey(Guild.GUILD, DSL.name("guild_pkey"), new TableField[] { Guild.GUILD.ID }, true);
+    public static final UniqueKey<Record> INVITES_PKEY = Internal.createUniqueKey(Invites.INVITES, DSL.name("invites_pkey"), new TableField[] { Invites.INVITES.ID }, true);
     public static final UniqueKey<Record> ITEM_PKEY = Internal.createUniqueKey(Item.ITEM, DSL.name("item_pkey"), new TableField[] { Item.ITEM.ID }, true);
     public static final UniqueKey<Record> ITEMTOPERSON_PERSON_ID_ITEM_ID_KEY = Internal.createUniqueKey(Itemtoperson.ITEMTOPERSON, DSL.name("itemtoperson_person_id_item_id_key"), new TableField[] { Itemtoperson.ITEMTOPERSON.PERSON_ID, Itemtoperson.ITEMTOPERSON.ITEM_ID }, true);
     public static final UniqueKey<Record> PERSON_PKEY = Internal.createUniqueKey(Person.PERSON, DSL.name("person_pkey"), new TableField[] { Person.PERSON.ID }, true);

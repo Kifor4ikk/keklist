@@ -3,6 +3,7 @@ package ru.kifor.kek.base.repository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.impl.TableImpl;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.kifor.kek.base.model.*;
 import ru.kifor.kek.utils.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor

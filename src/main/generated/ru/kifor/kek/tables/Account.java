@@ -33,6 +33,7 @@ import org.jooq.impl.TableImpl;
 
 import ru.kifor.kek.Keys;
 import ru.kifor.kek.Public;
+import ru.kifor.kek.enums.Roles;
 import ru.kifor.kek.tables.Person.PersonPath;
 
 
@@ -96,6 +97,11 @@ public class Account extends TableImpl<Record> {
      * The column <code>public.account.personid</code>.
      */
     public final TableField<Record, Long> PERSONID = createField(DSL.name("personid"), SQLDataType.BIGINT, this, "");
+
+    /**
+     * The column <code>public.account.role</code>.
+     */
+    public final TableField<Record, Roles> ROLE = createField(DSL.name("role"), SQLDataType.VARCHAR.defaultValue(DSL.field(DSL.raw("'USER'::roles"), SQLDataType.VARCHAR)).asEnumDataType(Roles.class), this, "");
 
     private Account(Name alias, Table<Record> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

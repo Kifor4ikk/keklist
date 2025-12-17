@@ -119,7 +119,7 @@ jooq {
                     generate {
                         isDeprecated = false
                         isRecords = false
-                        isImmutablePojos = true
+                        isImmutablePojos = false
                         isFluentSetters = false
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"

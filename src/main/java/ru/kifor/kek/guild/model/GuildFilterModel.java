@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import ru.kifor.kek.base.model.BaseFilterModel;
 
+import java.util.Optional;
+
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,6 +13,5 @@ import ru.kifor.kek.base.model.BaseFilterModel;
 @Setter
 public class GuildFilterModel extends BaseFilterModel {
 
-  @Builder.Default
-  private String name = null;
+  private Optional<String> name;
 }
