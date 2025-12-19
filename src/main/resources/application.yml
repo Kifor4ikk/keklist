@@ -1,3 +1,5 @@
+jwt-secret-key: vadim
+
 server:
   servlet:
     context-path: /api

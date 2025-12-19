@@ -5,6 +5,7 @@ package ru.kifor.kek.tables;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -89,11 +90,6 @@ public class Account extends TableImpl<Record> {
     public final TableField<Record, String> TOKEN = createField(DSL.name("token"), SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>public.account.valid_token_time</code>.
-     */
-    public final TableField<Record, LocalDate> VALID_TOKEN_TIME = createField(DSL.name("valid_token_time"), SQLDataType.LOCALDATE, this, "");
-
-    /**
      * The column <code>public.account.personid</code>.
      */
     public final TableField<Record, Long> PERSONID = createField(DSL.name("personid"), SQLDataType.BIGINT, this, "");
@@ -102,6 +98,11 @@ public class Account extends TableImpl<Record> {
      * The column <code>public.account.role</code>.
      */
     public final TableField<Record, Roles> ROLE = createField(DSL.name("role"), SQLDataType.VARCHAR.defaultValue(DSL.field(DSL.raw("'USER'::roles"), SQLDataType.VARCHAR)).asEnumDataType(Roles.class), this, "");
+
+    /**
+     * The column <code>public.account.valid_token_time</code>.
+     */
+    public final TableField<Record, LocalDateTime> VALID_TOKEN_TIME = createField(DSL.name("valid_token_time"), SQLDataType.LOCALDATETIME(6), this, "");
 
     private Account(Name alias, Table<Record> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

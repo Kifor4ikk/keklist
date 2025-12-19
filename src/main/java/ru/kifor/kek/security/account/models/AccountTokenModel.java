@@ -3,18 +3,20 @@ package ru.kifor.kek.security.account.models;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import ru.kifor.kek.base.model.BaseModel;
 import ru.kifor.kek.enums.Roles;
-import ru.kifor.kek.person.model.PersonModel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@SuperBuilder
-public class AccountModel extends BaseModel {
+@Builder
+public class AccountTokenModel {
+
   private String login;
+  private String password;
   private Roles role;
-  private PersonModel personModel;
+  private String token;
+  private LocalDateTime expiredAt;
+  private Long personId;
 }

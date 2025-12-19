@@ -26,14 +26,15 @@ jooq {
 }
 
 dependencies {
-
+    implementation("org.springframework.boot:spring-boot-starter-security:4.0.0")
     implementation("org.springframework.boot:spring-boot-starter-web:4.0.0")
     implementation("org.springframework.boot:spring-boot-starter-jooq:4.0.0")
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.0")
     implementation("org.postgresql:postgresql:42.7.8")
     implementation("org.slf4j:slf4j-api:2.0.17")
-
+        // https://mvnrepository.com/artifact/org.json/json
+    implementation("org.json:json:20250517")
     jooqGenerator("org.postgresql:postgresql:42.7.8")
 
     implementation("org.projectlombok:lombok:1.18.42")
