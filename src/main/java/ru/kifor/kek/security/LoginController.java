@@ -2,6 +2,7 @@ package ru.kifor.kek.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class LoginController {
     return accountService.create(accountModel);
   }
 
-  @PostMapping("/213")
+  @GetMapping("/213")
   public String test(Authentication authentication) {
     return "213";
   }
